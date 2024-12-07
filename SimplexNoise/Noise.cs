@@ -120,9 +120,14 @@ namespace SimplexNoise
                 }
                 else
                 {
+                    // permutation matrix is duplicated to handle rollovers
                     _perm = new byte[512];
-                    var random = new Random(value);
-                    random.NextBytes(_perm);
+
+                    var perm = new byte[256];
+                    new Random(value).NextBytes(perm);
+
+                    Array.Copy(perm, 0, _perm, 0, 256);
+                    Array.Copy(perm, 0, _perm, 256, 256);
                 }
 
                 _seed = value;
